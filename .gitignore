@@ -3,3 +3,4 @@
 !.gitignore
 !*.F
 !WRFV3/Registry/*
+!pythonscripts/*.py
