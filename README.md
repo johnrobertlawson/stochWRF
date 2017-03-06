@@ -1,5 +1,7 @@
 # stochWRF
-Stochastic edits to WRF 3.8.1. Repo contains only .F files (i.e., source code) and the Registry.
+Stochastic edits to WRF 3.8.1. Repo contains (a) Python scripts that are used before running WRF, and (b) .F files (i.e., source code) and the Registry from WRF source code.
+
+Code developed by John R. Lawson at CIMMS/NSSL and overseen by Nusrat Yussouf and Jack Kain. Successfully compiled on Cray at NSSL, March 4 2017.
 
 ## METHODOLOGY and SCIENCE
 Coming soon to a paper near you.
