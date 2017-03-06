@@ -1,0 +1,6 @@
+*
+!*/
+!.gitignore
+!*.F
+!WRFV3/Registry/Registry
+!WRFV3/Registry/registry
