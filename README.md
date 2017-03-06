@@ -8,8 +8,7 @@ Coming soon to a paper near you.
   * In-line documentation to supplement this README
   * Brief outline of each stochastic edit
   * Include Python scripts that
-    * generates namelist
-    * imposed a fractal perturbation on the soil moisture ICs
+    * imposes a fractal perturbation on the soil moisture ICs
 
 ## LIST OF CHANGES
 Search for “JRL” to find locations that have been edited from WRF 3.8.1 source code. Line numbers refer to WRF 3.8.1 code, but may not line up exactly to source code due to commenting, edits afterwards, etc. Use the following numbering to refer to any issues or changes.
