@@ -783,15 +783,17 @@
 !
         ENDDO
 
-        ! JRL ---------
-        DO K=KTS,KTE
-          DTHDZ = (TH(I,K,J)-TH(I,K+2,J))/(2*DZ(I,K+1,J))
+        ! JRL -------- 
+        DO K=KTS,KTE-1
+          DTHDZ = (TH(I,K,J)-TH(I,K+1,J))/(DZ(I,K+1,J))
           TSQ(I,K,J) = ((-B2*EL_MYJ(I,K,J))/TKE_MYJ(I,K,J))*        &
               EL_MYJ(I,K,J)* TKE_MYJ(I,K,J)*ESH(I,K,J)*DTHDZ**2
-          DQDZ = (QV(I,K,J)-QV(I,K+2,J))/(2*DZ(I,K+1,J))
+          DQDZ = (QV(I,K,J)-QV(I,K+1,J))/(DZ(I,K+1,J))
           QSQ(I,K,J) =((-B2*EL_MYJ(I,K,J))/TKE_MYJ(I,K,J))*         &
               EL_MYJ(I,K,J)*TKE_MYJ(I,K,J)*ESH(I,K,J)*DQDZ**2
         ENDDO
+        TSQ(I,KTE,J) = TSQ(I,KTE-1,J)
+        QSQ(I,KTE,J) = QSQ(I,KTE-1,K)
         ! -------------
 !----------------------------------------------------------------------
 !

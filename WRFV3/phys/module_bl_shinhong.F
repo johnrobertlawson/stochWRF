@@ -273,6 +273,7 @@ contains
              ,its=its,ite=ite, jts=jts,jte=jte, kts=kts,kte=kte,xkzhl=xkzhl)
              ! ---------
 !
+     !print *,'banana start variance comp.' ! JRL
      do k = kts,kte
        do i = its,ite
          rthblten(i,k,j) = rthblten(i,k,j)/pi3d(i,k,j)
@@ -281,12 +282,22 @@ contains
          if(present(rqiblten)) rqiblten(i,k,j) = rqvbl2dt(i,k+kte+kte)
 
          ! JRL ------
-          dthdz = (th3d(i,k,j)-th3d(i,k+2,j))/(2*dz8w(i,k+1,j))
-          tsq(i,k,j) = ((-10.1*el_pbl(i,k,j))/tke_pbl(i,k,j)) * el_pbl(i,k,j) * &
-                   tke_pbl(i,k,j) * xkzhl(i,k) * dthdz**2
-          dqdz = (qv3d(i,k,j)-qv3d(i,k+2,j))/(2*dz8w(i,k+1,j))
-          qsq(i,k,j) = ((-10.1*el_pbl(i,k,j))/tke_pbl(i,k,j)) * el_pbl(i,k,j) * &
-                   tke_pbl(i,k,j) * xkzhl(i,k ) *dqdz**2
+         if (k == kte) then
+             tsq(i,k,j) = tsq(i,kte-1,j)
+             qsq(i,k,j) = tsq(i,kte-1,j)
+         else
+              dthdz = (th3d(i,k,j)-th3d(i,k+1,j))/(dz8w(i,k+1,j))
+              tsq(i,k,j) = ((-10.1*el_pbl(i,k,j))/tke_pbl(i,k,j)) * el_pbl(i,k,j) * &
+                       tke_pbl(i,k,j) * xkzhl(i,k) * dthdz**2
+              dqdz = (qv3d(i,k,j)-qv3d(i,k+1,j))/(dz8w(i,k+1,j))
+              qsq(i,k,j) = ((-10.1*el_pbl(i,k,j))/tke_pbl(i,k,j)) * el_pbl(i,k,j) * &
+                       tke_pbl(i,k,j) * xkzhl(i,k ) *dqdz**2
+         endif
+         !print *,'dthdz =',dthdz
+         !print *,'dqdz =',dqdz
+         !print *,'tsq =',tsq,'for i,k,j =',i,k,j
+         !print *,'qsq =',qsq,'for i,k,j =',i,k,j
+         !print *,'xkzhl =',xkzhl(i,k),'for i,k',i,k
          ! --------
        enddo
      enddo

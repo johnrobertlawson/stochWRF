@@ -1207,6 +1207,7 @@ CONTAINS
            ENDIF
 
       CASE (SHINHONGSCHEME)
+        print *,"banana calling shinhong" ! JRL
         CALL wrf_debug(100,'in SHINHONG PBL')
            IF ( PRESENT( qv_curr )  .AND. PRESENT( qc_curr )  .AND. &
                 PRESENT( qi_curr )                            .AND. &
@@ -1244,6 +1245,7 @@ CONTAINS
               ,DX=dx,DY=dy                                          &
               ,TSQ=tsq,QSQ=qsq                                 & ! JRL
                                                                     )
+           print *,"banana finished with shinhong" ! JRL
            ELSE
                WRITE ( message , FMT = '(A,7(L1,1X))' )             &
                  'present: '//                                      &
