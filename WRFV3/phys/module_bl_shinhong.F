@@ -315,6 +315,12 @@ contains
           dqdz = (qv3d(i,k,j)-qv3d(i,k+1,j))/(dz8w(i,k,j))
           qsq(i,k,j) = abs(((-10.1*el_pbl(i,k,j))/(tke_pbl(i,k,j))) * (el_pbl(i,k,j) * &
                    tke_pbl(i,k,j) * xkzhl_3d(i,k,j) * dqdz**2))
+          if (qsq(i,k,j) > 1000) then
+               print *,'littlemama'
+          endif
+          if (tsq(i,k,j) > 1000) then
+            print *,'dickwolf'
+          endif
           if (i == its+3) then
             if (j == jts+3) then
               if (k == kts+3) then
@@ -347,7 +353,7 @@ contains
    print *,'trifle tsq array ----------'
    print *,tsq(its:ite,kts:kte,jts:jte)
    print *,'trifle qsq array ----------'
-   print *,qsq
+   print *,qsq(its:ite,kts:kte,jts:jte)
    print *,'end array ----------'
 !
    end subroutine shinhong

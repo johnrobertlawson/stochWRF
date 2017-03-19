@@ -795,16 +795,16 @@
             ! JRL --------
           if (i == its+3) then
             if (j == jts+3) then
-              print *,'pansy max in tsq = ',maxval(tsq)
-              print *,'pansy max in qsq = ',maxval(qsq)
-              print *,'pansy min in tsq = ',minval(tsq)
-              print *,'pansy min in qsq = ',minval(qsq)
-              print *,'pansy max in tke_myj = ',maxval(tke_myj)
-              print *,'pansy min in tke_myj = ',minval(tke_myj)
-              print *,'pansy max in el_myj = ',maxval(el_myj)
-              print *,'pansy min in el_myj = ',minval(el_myj)
-              print *,'pansy max in esh = ',maxval(esh)
-              print *,'pansy min in esh = ',minval(esh)
+              print *,'pansy max in tsq = ',maxval(tsq(its:ite,kts:kte,jts:jte))
+              print *,'pansy max in qsq = ',maxval(qsq(its:ite,kts:kte,jts:jte))
+              print *,'pansy min in tsq = ',minval(tsq(its:ite,kts:kte,jts:jte))
+              print *,'pansy min in qsq = ',minval(qsq(its:ite,kts:kte,jts:jte))
+              print *,'pansy max in tke_myj = ',maxval(tke_myj(its:ite,kts:kte,jts:jte))
+              print *,'pansy min in tke_myj = ',minval(tke_myj(its:ite,kts:kte,jts:jte))
+              print *,'pansy max in el_myj = ',maxval(el_myj(its:ite,kts:kte,jts:jte))
+              print *,'pansy min in el_myj = ',minval(el_myj(its:ite,kts:kte,jts:jte))
+              print *,'pansy max in esh = ',maxval(esh(its:ite,kts:kte,jts:jte))
+              print *,'pansy min in esh = ',minval(esh(its:ite,kts:kte,jts:jte))
             endif
           endif
             ! Might need to flip the K for ESH/ESM?
@@ -818,6 +818,12 @@
             !DQDZ = (QV(I,K,J)-QV(I,K+1,J))/(-1.0*DZ(I,K,J))
             QSQ(I,K,J) = ABS(((B2*EL_MYJ(I,K,J))/(TKE_MYJ(I,K,J)))*         &
                   (EL_MYJ(I,K,J)*TKE_MYJ(I,K,J)*ESH(I,K,J)*(DQDZ**2)))
+            if (qsq(i,k,j) > 1000) then
+                print *,'littlemama'
+            endif
+            if (tsq(i,k,j) > 1000) then
+                print *,'dickwolf'
+            endif           
             if (i == its+3) then
               if (j == jts+3) then
                 if (k == kts+3) then
@@ -848,7 +854,7 @@
       print *,'trifle tsq array ----------'
       print *,tsq(its:ite,kts:kte,jts:jte)
       print *,'trifle qsq array ----------'
-      print *,qsq
+      print *,qsq(its:ite,kts:kte,jts:jte)
       print *,'end array ----------'
 !
 !----------------------------------------------------------------------
