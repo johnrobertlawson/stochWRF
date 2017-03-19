@@ -67,7 +67,7 @@ contains
 !-- rv          gas constant for water vapor (j/kg/k)
 !-- dz8w        dz between full levels (m)
 !-- psfc        pressure at the surface (pa)
-!-- znu         eta values on half (mass) levels  
+!-- znu         eta values on half (mass) levels
 !-- znw         eta values on full (w) levels
 !-- mut         mass in column (pa)
 !-- p_top       pressure top of the model (pa)
@@ -205,10 +205,13 @@ contains
                                                                         dtsfc, &
                                                                         dqsfc
 ! JRL ---------
-    real :: dthdz, dqdz
-    real,dimension(ims:ime,kms:kme,jms:jme),intent(inout) ::   tsq,qsq = 0.0
+    real :: dthdz, dqdz = 0.0
+    real,dimension(ims:ime,kms:kme,jms:jme),intent(inout) ::   tsq,qsq
     real,     dimension( ims:ime, kms:kme, jms:jme )   ::       xkzhl_3d = 0.0
     !real,     dimension( its:ite, kts:kte )   ::       xkzhl = 0.0
+   tsq(its:ite,kts:kte,jts:jte) = 0.0
+   qsq(its:ite,kts:kte,jts:jte) = 0.0
+   xkzhl_3d = 0.0
 ! -------------
    qv2d(its:ite,:) = 0.0
 !
@@ -313,7 +316,7 @@ contains
           qsq(i,k,j) = abs(((-10.1*el_pbl(i,k,j))/(tke_pbl(i,k,j))) * (el_pbl(i,k,j) * &
                    tke_pbl(i,k,j) * xkzhl_3d(i,k,j) * dqdz**2))
           if (i == its+3) then
-            if (j == jts+3) then 
+            if (j == jts+3) then
               if (k == kts+3) then
                 print *,'trifle ----------'
                 print *,i,j,k
@@ -380,13 +383,13 @@ contains
 !
 !     the shinhongpbl (shin and hong 2015) is based on the les study of shin
 !     and hong (2013). the major ingredients of the shinhongpbl are
-!       1) the prescribed nonlocal heat transport profile fit to the les and 
-!       2) inclusion of explicit scale dependency functions for vertical 
-!          transport in convective pbl. 
+!       1) the prescribed nonlocal heat transport profile fit to the les and
+!       2) inclusion of explicit scale dependency functions for vertical
+!          transport in convective pbl.
 !     so, the shinhongpbl works at the gray zone resolution of convective pbl.
 !     note that honnert et al. (2011) first suggested explicit scale dependency
 !     function, and shin and hong (2013) further classified the function by
-!     stability (u*/w*) in convective pbl and calculated the function for 
+!     stability (u*/w*) in convective pbl and calculated the function for
 !     nonlocal and local transport separately.
 !     vertical mixing in the stable boundary layer and free atmosphere follows
 !     hong (2010) and hong et al. (2006), same as the ysupbl scheme.
@@ -405,7 +408,7 @@ contains
 !        shin and hong (2013) j. atmos. sci.
 !        honnert, masson, and couvreux (2011) j. atmos. sci.
 !        hong (2010) quart. j. roy. met. soc
-!        hong, noh, and dudhia (2006), mon. wea. rev. 
+!        hong, noh, and dudhia (2006), mon. wea. rev.
 !
 !-------------------------------------------------------------------------------
 !
@@ -643,7 +646,7 @@ contains
    conwrc = conw*sqrt(rcl)
    conpr = bfac*karman*sfcfrac
 !
-!  k-start index for cloud and rain 
+!  k-start index for cloud and rain
 !
    kqc = 1 + kte
    kqi = 1 + kte*2
@@ -681,7 +684,7 @@ contains
        zq(i,k+1) = dz8w2d(i,k)+zq(i,k)
      enddo
    enddo
-! 
+!
    do k = kts,kte
      do i = its,ite
        za(i,k) = 0.5*(zq(i,k)+zq(i,k+1))
@@ -1087,7 +1090,7 @@ contains
          zfac(i,k) = min(max((1.-(zq(i,k+1)-zl1(i))/(hpbl(i)-zl1(i))),zfmin),1.)
          zfacent(i,k) = (1.-zfac(i,k))**3.
          wscalek(i,k) = (ust3(i)+phifac*karman*wstar3(i)*(1.-zfac(i,k)))**h1
-         if(sfcflg(i)) then 
+         if(sfcflg(i)) then
            prfac = conpr
            prfac2 = 15.9*wstar3(i)/ust3(i)/(1.+4.*karman*wstar3(i)/ust3(i))
            prnumfac = -3.*(max(zq(i,k+1)-sfcfrac*hpbl(i),0.))**2./hpbl(i)**2.

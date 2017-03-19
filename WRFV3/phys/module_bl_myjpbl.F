@@ -34,7 +34,7 @@
       REAL,PARAMETER :: EPSL=0.32,EPSRU=1.E-7,EPSRS=1.E-7               &
      &                 ,EPSTRB=1.E-24
       REAL,PARAMETER :: EPSA=1.E-8,EPSIT=1.E-4,EPSU2=1.E-4,EPSUST=0.07  &
-     &                 ,FH=1.01 
+     &                 ,FH=1.01
       REAL,PARAMETER :: ALPH=0.30,BETA=1./273.,EL0MAX=1000.,EL0MIN=1.   &
      &                 ,ELFC=0.23*0.5,GAM1=0.2222222222222222222        &
      &                 ,PRT=1.
@@ -59,16 +59,16 @@
      &                 ,RB1=1./B1,RTVISC=1./TVISC,RVISC=1./VISC         &
      &                 ,ZQRZT=SQSC/SQPR
 !
-      REAL,PARAMETER :: ADNH= 9.*A1*A2x*A2x*(12.*A1+3.*B2)*BTG*BTG      &                  
-     &                 ,ADNM=18.*A1*A1*A2x*(B2-3.*A2x)*BTG              & 
+      REAL,PARAMETER :: ADNH= 9.*A1*A2x*A2x*(12.*A1+3.*B2)*BTG*BTG      &
+     &                 ,ADNM=18.*A1*A1*A2x*(B2-3.*A2x)*BTG              &
      &                 ,ANMH=-9.*A1*A2x*A2x*BTG*BTG                     &
      &                 ,ANMM=-3.*A1*A2x*(3.*A2x+3.*B2*C1+18.*A1*C1-B2)  &
-     &                                *BTG                              &   
+     &                                *BTG                              &
      &                 ,BDNH= 3.*A2x*(7.*A1+B2)*BTG                     &
      &                 ,BDNM= 6.*A1*A1                                  &
      &                 ,BEQH= A2x*B1*BTG+3.*A2x*(7.*A1+B2)*BTG          &
      &                 ,BEQM=-A1*B1*(1.-3.*C1)+6.*A1*A1                 &
-     &                 ,BNMH=-A2x*BTG                                   &     
+     &                 ,BNMH=-A2x*BTG                                   &
      &                 ,BNMM=A1*(1.-3.*C1)                              &
      &                 ,BSHH=9.*A1*A2x*A2x*BTG                          &
      &                 ,BSHM=18.*A1*A1*A2x*C1                           &
@@ -110,7 +110,7 @@
 !-----------------------------------------------------------------------
 !***  NEAR ISOTROPY FOR SHEAR TURBULENCE, WW/Q2 LOWER LIMIT
 !-----------------------------------------------------------------------
-! 
+!
       REAL,PARAMETER :: UBRYL=(18.*REQU*A1*A1*A2x*B2*C1*BTG             &
      &                         +9.*A1*A2x*A2x*B2*BTG*BTG)               &
      &                        /(REQU*ADNM+ADNH)                         &
@@ -177,7 +177,7 @@
 !
       REAL, INTENT(OUT), DIMENSION(IMS:IME,KMS:KME,JMS:JME) ::         &   !BSF
      &                                         EL_MYJ,RTHBLTEN         &   !BSF
-     &                                        ,RUBLTEN,RVBLTEN        
+     &                                        ,RUBLTEN,RVBLTEN
 !
       REAL,OPTIONAL,INTENT(OUT),DIMENSION(IMS:IME,KMS:KME,JMS:JME)::   &   !BSF
      &                                             RQCBLTEN,RQVBLTEN   &   !BSF
@@ -251,9 +251,9 @@
       ! JRL -------------
       REAL,DIMENSION(IMS:IME,JMS:JME),INTENT(INOUT) :: L_INF
       REAL,DIMENSION(IMS:IME,KMS:KME,JMS:JME),INTENT(INOUT) ::TSQ,QSQ
-      REAL :: DTHDZ,DQDZ
-      REAL,DIMENSION(KTS:KTE-1) :: ESHK, ESMK
-      REAL,DIMENSION(ITS:ITE,KTS:KTE-1,JTS:JTE) :: ESH,ESM
+      REAL :: DTHDZ,DQDZ = 0.0
+      REAL,DIMENSION(KTS:KTE-1) :: ESHK, ESMK = 0.0
+      REAL,DIMENSION(ITS:ITE,KTS:KTE-1,JTS:JTE) :: ESH,ESM = 0.0
       ! -----------------
 !
 !***  Begin debugging
@@ -265,6 +265,12 @@
 !**********************************************************************
 !----------------------------------------------------------------------
 !
+! JRL -------------
+     TSQ(ITE:ITS,KTE:KTS,JTE:JTS) = 0.0
+     QSQ(ITE:ITS,KTE:KTS,JTE:JTS) = 0.0
+     L_INF(ITE:ITS,KTE:KTS,JTE:JTS) = 0.0
+! -----------------
+
 !***  Begin debugging
       IMD=(IMS+IME)/2
       JMD=(JMS+JME)/2
@@ -450,8 +456,8 @@
      &               ,ESHK,ESMK                                   )
           ! -----------
 !
-!***  COUNTING DOWNWARD FROM THE TOP, THE EXCHANGE COEFFICIENTS AKH 
-!***  ARE DEFINED ON THE BOTTOMS OF THE LAYERS KTS TO KTE-1.  
+!***  COUNTING DOWNWARD FROM THE TOP, THE EXCHANGE COEFFICIENTS AKH
+!***  ARE DEFINED ON THE BOTTOMS OF THE LAYERS KTS TO KTE-1.
 !***  COUNTING UPWARD FROM THE BOTTOM, THOSE SAME COEFFICIENTS AS
 !***  EXCH_H ARE DEFINED ON THE BOTTOMS OF THE LAYERS KTS TO KTE-1
 !***  THUS EXCH_H INDICES INCREASE UPWARD WITH K=KTS AT THE GROUND.
@@ -782,7 +788,7 @@
           ENDDO
 !
 
-            ! JRL -------- 
+            ! JRL --------
           if (i == its+3) then
             if (j == jts+3) then
               print *,'pansy max in tsq = ',maxval(tsq)
@@ -893,7 +899,7 @@
       INTEGER :: K,LPBLM
 !
       ! JRL -------------
-      REAL,INTENT(INOUT) :: EL0
+      REAL,INTENT(OUT) :: EL0
       !REAL :: A,ADEN,B,BDEN,AUBR,BUBR,BLMX,EL0,ELOQ2X,GHL,GML           &
       REAL :: A,ADEN,B,BDEN,AUBR,BUBR,BLMX,ELOQ2X,GHL,GML           &
       ! -----------------
@@ -1651,7 +1657,7 @@
       REAL,DIMENSION(KTS:KTE),INTENT(IN) :: RHO
       REAL,DIMENSION(KTS:KTE+1),INTENT(IN) :: Z
       REAL,DIMENSION(KTS:KTE),INTENT(INOUT) :: DUST1,DUST2
-! 
+!
 !----------------------------------------------------------------------
 !***
 !***  LOCAL VARIABLES
