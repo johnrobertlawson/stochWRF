@@ -206,8 +206,9 @@ contains
                                                                         dqsfc
 ! JRL ---------
     real :: dthdz, dqdz
-    real,dimension(ims:ime,kms:kme,jms:jme),intent(out) ::   tsq,qsq
-    real,     dimension( its:ite, kts:kte )   ::       xkzhl
+    real,dimension(ims:ime,kms:kme,jms:jme),intent(inout) ::   tsq,qsq = 0.0
+    real,     dimension( ims:ime, kms:kme, jms:jme )   ::       xkzhl_3d = 0.0
+    !real,     dimension( its:ite, kts:kte )   ::       xkzhl = 0.0
 ! -------------
    qv2d(its:ite,:) = 0.0
 !
@@ -263,14 +264,18 @@ contains
              ,u10=u10(ims,j),v10=v10(ims,j)                                    &
              ,ctopo=ctopo(ims,j),ctopo2=ctopo2(ims,j)                          &
              ,shinhong_tke_diag=shinhong_tke_diag                              &
-             ,tke=tke_pbl(ims,kms,j),el_pbl=el_pbl(ims,kms,j)                  &
+             ! JRL ----
+             !,tke=tke_pbl(ims,kms,j),el_pbl=el_pbl(ims,kms,j)                 &
+             ,tke=tke_pbl(:,:,j),el_pbl=el_pbl(:,:,j)                          &
+             ! --------
              ,corf=corf(ims,j)                                                 &
              ,dx=dx,dy=dy                                                      &
              ,ids=ids,ide=ide, jds=jds,jde=jde, kds=kds,kde=kde                &
              ,ims=ims,ime=ime, jms=jms,jme=jme, kms=kms,kme=kme                &
              ! JRL ------
              !,its=its,ite=ite, jts=jts,jte=jte, kts=kts,kte=kte   )
-             ,its=its,ite=ite, jts=jts,jte=jte, kts=kts,kte=kte,xkzhl=xkzhl)
+             ,its=its,ite=ite, jts=jts,jte=jte,                                &
+             kts=kts,kte=kte,xkzhl=xkzhl_3d(:,:,j) )
              ! ---------
 !
      !print *,'banana start variance comp.' ! JRL
@@ -281,28 +286,66 @@ contains
          rqcblten(i,k,j) = rqvbl2dt(i,k+kte)
          if(present(rqiblten)) rqiblten(i,k,j) = rqvbl2dt(i,k+kte+kte)
 
-         ! JRL ------
-         if (k == kte) then
-             tsq(i,k,j) = tsq(i,kte-1,j)
-             qsq(i,k,j) = tsq(i,kte-1,j)
-         else
-              dthdz = (th3d(i,k,j)-th3d(i,k+1,j))/(dz8w(i,k+1,j))
-              tsq(i,k,j) = ((-10.1*el_pbl(i,k,j))/tke_pbl(i,k,j)) * el_pbl(i,k,j) * &
-                       tke_pbl(i,k,j) * xkzhl(i,k) * dthdz**2
-              dqdz = (qv3d(i,k,j)-qv3d(i,k+1,j))/(dz8w(i,k+1,j))
-              qsq(i,k,j) = ((-10.1*el_pbl(i,k,j))/tke_pbl(i,k,j)) * el_pbl(i,k,j) * &
-                       tke_pbl(i,k,j) * xkzhl(i,k ) *dqdz**2
-         endif
-         !print *,'dthdz =',dthdz
-         !print *,'dqdz =',dqdz
-         !print *,'tsq =',tsq,'for i,k,j =',i,k,j
-         !print *,'qsq =',qsq,'for i,k,j =',i,k,j
-         !print *,'xkzhl =',xkzhl(i,k),'for i,k',i,k
-         ! --------
        enddo
      enddo
+
+     ! JRL ------
+     if (j == jts+3) then
+       print *,'pansy max in tsq = ',maxval(tsq)
+       print *,'pansy max in qsq = ',maxval(qsq)
+       print *,'pansy min in tsq = ',minval(tsq)
+       print *,'pansy min in qsq = ',minval(qsq)
+       print *,'pansy max in tke_pbl = ',maxval(tke_pbl)
+       print *,'pansy min in tke_pbl = ',minval(tke_pbl)
+       print *,'pansy max in el_pbl = ',maxval(el_pbl)
+       print *,'pansy min in el_pbl = ',minval(el_pbl)
+       print *,'pansy max in xkzhl_3d = ',maxval(xkzhl_3d)
+       print *,'pansy min in xkzhl_3d = ',minval(xkzhl_3d)
+     endif
+     do i = its,ite
+       do k = kts+1,kte-1
+          ! JRL - just for testing!
+          el_pbl(i,k,j) = 50.0
+          dthdz = (th3d(i,k,j)-th3d(i,k+1,j))/(dz8w(i,k,j))
+          tsq(i,k,j) = abs(((-10.1*el_pbl(i,k,j))/(tke_pbl(i,k,j))) * (el_pbl(i,k,j) * &
+                   tke_pbl(i,k,j) * xkzhl_3d(i,k,j) * dthdz**2))
+          dqdz = (qv3d(i,k,j)-qv3d(i,k+1,j))/(dz8w(i,k,j))
+          qsq(i,k,j) = abs(((-10.1*el_pbl(i,k,j))/(tke_pbl(i,k,j))) * (el_pbl(i,k,j) * &
+                   tke_pbl(i,k,j) * xkzhl_3d(i,k,j) * dqdz**2))
+          if (i == its+3) then
+            if (j == jts+3) then 
+              if (k == kts+3) then
+                print *,'trifle ----------'
+                print *,i,j,k
+                print *,'dthdz = ',dthdz
+                print *,'dqdz = ',dqdz
+                print *,'tsq = ',tsq(i,k,j)
+                print *,'qsq = ',qsq(i,k,j)
+                print *,'xkzhl_3d = ',xkzhl_3d(i,k,j)
+                print *,'tke_pbl = ',tke_pbl(i,k,j)
+                print *,'tke_pbl (ims, kms, j) = ',tke_pbl(ims,kms,j)
+                print *,'el_pbl = ',el_pbl(i,k,j)
+                print *,'el_pbl (ims,kms,j) = ',el_pbl(ims,kms,j)
+                print *,'max el_pbl = ',MAXVAL(el_pbl),' at ',MAXLOC(el_pbl)
+                print *,'dz8w = ',dz8w(i,k,j)
+                print *,'END trifle ----------'
+              endif
+            endif
+          endif
+       enddo
+       tsq(i,kts,j) = tsq(i,kts+1,j)
+       tsq(i,kts,j) = tsq(i,kts+1,j)
+       qsq(i,kte,j) = qsq(i,kte-1,j)
+       qsq(i,kte,j) = qsq(i,kte-1,j)
+     enddo
+     ! --------
 !
    enddo
+   print *,'trifle tsq array ----------'
+   print *,tsq(its:ite,kts:kte,jts:jte)
+   print *,'trifle qsq array ----------'
+   print *,qsq
+   print *,'end array ----------'
 !
    end subroutine shinhong
 !-------------------------------------------------------------------------------
@@ -1637,6 +1680,12 @@ contains
        if(k/=kts) el_pbl(i,k) = el(k) ! el is not defined at kte
      enddo
 !
+   ! JRL------
+     print *,'banana trifle ----------'
+     print *,'el(k) = ',el(kts+1)
+     print *,'el_pbl(i,k) = ',el_pbl(its+1,kts+1)
+     print *,'END banana trifle ----------'
+   ! --------
    enddo tke_calculation
    endif
 !

@@ -250,7 +250,7 @@
 
       ! JRL -------------
       REAL,DIMENSION(IMS:IME,JMS:JME),INTENT(INOUT) :: L_INF
-      REAL,DIMENSION(IMS:IME,KMS:KME,JMS:JME),INTENT(OUT) ::TSQ,QSQ
+      REAL,DIMENSION(IMS:IME,KMS:KME,JMS:JME),INTENT(INOUT) ::TSQ,QSQ
       REAL :: DTHDZ,DQDZ
       REAL,DIMENSION(KTS:KTE-1) :: ESHK, ESMK
       REAL,DIMENSION(ITS:ITE,KTS:KTE-1,JTS:JTE) :: ESH,ESM
@@ -781,26 +781,69 @@
             RVBLTEN(I,K,J)=DVDT
           ENDDO
 !
-        ENDDO
 
-        ! JRL -------- 
-        DO K=KTS,KTE-1
-          DTHDZ = (TH(I,K,J)-TH(I,K+1,J))/(DZ(I,K+1,J))
-          TSQ(I,K,J) = ((-B2*EL_MYJ(I,K,J))/TKE_MYJ(I,K,J))*        &
-              EL_MYJ(I,K,J)* TKE_MYJ(I,K,J)*ESH(I,K,J)*DTHDZ**2
-          DQDZ = (QV(I,K,J)-QV(I,K+1,J))/(DZ(I,K+1,J))
-          QSQ(I,K,J) =((-B2*EL_MYJ(I,K,J))/TKE_MYJ(I,K,J))*         &
-              EL_MYJ(I,K,J)*TKE_MYJ(I,K,J)*ESH(I,K,J)*DQDZ**2
+            ! JRL -------- 
+          if (i == its+3) then
+            if (j == jts+3) then
+              print *,'pansy max in tsq = ',maxval(tsq)
+              print *,'pansy max in qsq = ',maxval(qsq)
+              print *,'pansy min in tsq = ',minval(tsq)
+              print *,'pansy min in qsq = ',minval(qsq)
+              print *,'pansy max in tke_myj = ',maxval(tke_myj)
+              print *,'pansy min in tke_myj = ',minval(tke_myj)
+              print *,'pansy max in el_myj = ',maxval(el_myj)
+              print *,'pansy min in el_myj = ',minval(el_myj)
+              print *,'pansy max in esh = ',maxval(esh)
+              print *,'pansy min in esh = ',minval(esh)
+            endif
+          endif
+            ! Might need to flip the K for ESH/ESM?
+          DO K=KTS+1,KTE-1
+            KFLIP = KTE+1-K
+            DTHDZ = (TH(I,KFLIP-1,J)-TH(I,KFLIP+1,J))/(2.0*DZ(I,KFLIP,J))
+            !DTHDZ = (TH(I,K,J)-TH(I,K+1,J))/(-1.0*DZ(I,K,J))
+            TSQ(I,K,J) = ABS(((B2*EL_MYJ(I,K,J))/(TKE_MYJ(I,K,J)))*        &
+                  (EL_MYJ(I,K,J)*TKE_MYJ(I,K,J)*ESH(I,K,J)*(DTHDZ**2)))
+            DQDZ = (QV(I,KFLIP-1,J)-QV(I,KFLIP+1,J))/(2.0*DZ(I,KFLIP,J))
+            !DQDZ = (QV(I,K,J)-QV(I,K+1,J))/(-1.0*DZ(I,K,J))
+            QSQ(I,K,J) = ABS(((B2*EL_MYJ(I,K,J))/(TKE_MYJ(I,K,J)))*         &
+                  (EL_MYJ(I,K,J)*TKE_MYJ(I,K,J)*ESH(I,K,J)*(DQDZ**2)))
+            if (i == its+3) then
+              if (j == jts+3) then
+                if (k == kts+3) then
+                  print *,'trifle ----------'
+                  print *,i,j,k
+                  print *,'dthdz = ',dthdz
+                  print *,'dqdz = ',dqdz
+                  print *,'tsq = ',tsq(i,k,j)
+                  print *,'qsq = ',qsq(i,k,j)
+                  print *,'esh = ',esh(i,k,j)
+                  print *,'el_myj = ',el_myj(i,k,j)
+                  print *,'dz = ',dz(i,k,j)
+                  print *,'tke_myj = ',tke_myj(i,k,j)
+                  print *,'END trifle ----------'
+                endif
+              endif
+            endif
+          ENDDO
+          TSQ(I,KTE,J) = TSQ(I,KTE-1,J)
+          TSQ(I,KTE,J) = TSQ(I,KTE-1,J)
+          QSQ(I,KTS,J) = QSQ(I,KTS+1,J)
+          QSQ(I,KTS,J) = QSQ(I,KTS+1,J)
         ENDDO
-        TSQ(I,KTE,J) = TSQ(I,KTE-1,J)
-        QSQ(I,KTE,J) = QSQ(I,KTE-1,K)
         ! -------------
 !----------------------------------------------------------------------
 !
       ENDDO main_integration
+      print *,'trifle tsq array ----------'
+      print *,tsq(its:ite,kts:kte,jts:jte)
+      print *,'trifle qsq array ----------'
+      print *,qsq
+      print *,'end array ----------'
 !
 !----------------------------------------------------------------------
 !
+      print *,"banana heading out of MYJ..."
       END SUBROUTINE MYJPBL
 !
 !----------------------------------------------------------------------
@@ -850,7 +893,7 @@
       INTEGER :: K,LPBLM
 !
       ! JRL -------------
-      REAL,INTENT(OUT) :: EL0
+      REAL,INTENT(INOUT) :: EL0
       !REAL :: A,ADEN,B,BDEN,AUBR,BUBR,BLMX,EL0,ELOQ2X,GHL,GML           &
       REAL :: A,ADEN,B,BDEN,AUBR,BUBR,BLMX,ELOQ2X,GHL,GML           &
       ! -----------------

@@ -3928,7 +3928,17 @@ ENDIF
        qke_adv=qke
     ENDIF
 !ACF-end
-    
+! JRL -----
+    print *,'trifle ----------'
+    print *,its+3,jts+3,kts+3
+    print *,'tke_pbl = ',tke_pbl(its+3,kts+3,jts+3)
+    print *,'tsq = ',tsq(its+3,kts+3,jts+3)
+    print *,'qsq = ',qsq(its+3,kts+3,jts+3)
+    print *,'el_pbl = ',el_pbl(its+3,kts+3,jts+3)
+    print *,'dz = ',dz(its+3,kts+3,jts+3)
+    print *,'END trifle ----------'
+! ------------
+
   END SUBROUTINE mynn_bl_driver
 
 ! ==================================================================
