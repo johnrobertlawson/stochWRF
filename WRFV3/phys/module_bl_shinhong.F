@@ -207,7 +207,7 @@ contains
 ! JRL ---------
     real :: dthdz, dqdz = 0.0
     real,dimension(ims:ime,kms:kme,jms:jme),intent(inout) ::   tsq,qsq
-    real,     dimension( ims:ime, kms:kme, jms:jme )   ::       xkzhl_3d = 0.0
+    real,     dimension( ims:ime, kms:kme, jms:jme )   ::       xkzhl_3d
     !real,     dimension( its:ite, kts:kte )   ::       xkzhl = 0.0
    tsq(its:ite,kts:kte,jts:jte) = 0.0
    qsq(its:ite,kts:kte,jts:jte) = 0.0

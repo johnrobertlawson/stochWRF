@@ -64,7 +64,7 @@ Search for “JRL” to find locations that have been edited from WRF 3.8.1 sour
 
 8. ### `phys/module_bl_shinhong.F`
   1. Line 28: Passing tsq,qsq into script
-  2. Line 207: Creating temporary variables for later comp, and defining tsq, qsq
+  2. Line 207: Creating temporary variables for later comp, and defining tsq, qsq; initialising
   3. Line 271: Adding xkzhl to 2D call (this is the K_H values we need for variances)
   4. Line 283: Computing variances
   5. Line 319: Adding xkzhl

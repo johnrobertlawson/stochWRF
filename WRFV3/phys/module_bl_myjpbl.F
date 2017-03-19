@@ -252,8 +252,8 @@
       REAL,DIMENSION(IMS:IME,JMS:JME),INTENT(INOUT) :: L_INF
       REAL,DIMENSION(IMS:IME,KMS:KME,JMS:JME),INTENT(INOUT) ::TSQ,QSQ
       REAL :: DTHDZ,DQDZ = 0.0
-      REAL,DIMENSION(KTS:KTE-1) :: ESHK, ESMK = 0.0
-      REAL,DIMENSION(ITS:ITE,KTS:KTE-1,JTS:JTE) :: ESH,ESM = 0.0
+      REAL,DIMENSION(KTS:KTE-1) :: ESHK, ESMK
+      REAL,DIMENSION(ITS:ITE,KTS:KTE-1,JTS:JTE) :: ESH,ESM
       ! -----------------
 !
 !***  Begin debugging
@@ -266,9 +266,13 @@
 !----------------------------------------------------------------------
 !
 ! JRL -------------
-     TSQ(ITE:ITS,KTE:KTS,JTE:JTS) = 0.0
-     QSQ(ITE:ITS,KTE:KTS,JTE:JTS) = 0.0
-     L_INF(ITE:ITS,KTE:KTS,JTE:JTS) = 0.0
+     TSQ(ITS:ITE,KTS:KTE,JTS:JTE) = 0.0
+     QSQ(ITS:ITE,KTS:KTE,JTS:JTE) = 0.0
+     L_INF(ITS:ITE,JTS:JTE) = 0.0
+     ESH(ITS:ITE,KTS:KTE-1,JTS:JTE) = 0.0
+     ESM(ITS:ITE,KTS:KTE-1,JTS:JTE) = 0.0 ! NOT USED RIGHT NOW?
+     ESHK(KTS:KTE-1) = 0.0
+     ESMK(KTS:KTE-1) = 0.0
 ! -----------------
 
 !***  Begin debugging
