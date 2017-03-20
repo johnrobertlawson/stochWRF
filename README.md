@@ -139,6 +139,8 @@ Search for “JRL” to find locations that have been edited from WRF 3.8.1 sour
   14. MORPHTH_TBOT (added)
   15. MORPHTH_BTR (added)
   16. MORPHTH_RAD (added)
+  17. MYJ package declaration needs "L_INF","TSQ", "QSQ"
+  18. Shinhong package declaration needs "TSQ", "QSQ"
 
 15. ### `Registry/registry.stoch`
 (Search for the following)
