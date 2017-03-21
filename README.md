@@ -22,6 +22,7 @@ Search for “JRL” to find locations that have been edited from WRF 3.8.1 sour
 
 2. ### `dyn_em/module_first_rk_step_part2.F`
 
+  1. Line 205 to turn off RAND_PERT_UPDATE (we've hacked SPPT for other uses).
   1. Line 670 in CALL perturb_physics_tend (changing SPPT-scheme arguments for PSP. If SPPT scheme is to be kept, need to create duplicate of this scheme)
   2. Line 679 in CALL perturb_physics_tend (ditto)
 
