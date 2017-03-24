@@ -266,9 +266,10 @@
 !----------------------------------------------------------------------
 !
 ! JRL -------------
-     TSQ(ITS:ITE,KTS:KTE,JTS:JTE) = 0.0
-     QSQ(ITS:ITE,KTS:KTE,JTS:JTE) = 0.0
-     L_INF(ITS:ITE,JTS:JTE) = 0.0
+     ! These maybe done for first time step?
+     !TSQ(ITS:ITE,KTS:KTE,JTS:JTE) = 0.0
+     !QSQ(ITS:ITE,KTS:KTE,JTS:JTE) = 0.0
+     !L_INF(ITS:ITE,JTS:JTE) = 0.0
      ESH(ITS:ITE,KTS:KTE-1,JTS:JTE) = 0.0
      ESM(ITS:ITE,KTS:KTE-1,JTS:JTE) = 0.0 ! NOT USED RIGHT NOW?
      ESHK(KTS:KTE-1) = 0.0
@@ -805,6 +806,9 @@
               print *,'pansy min in el_myj = ',minval(el_myj(its:ite,kts:kte,jts:jte))
               print *,'pansy max in esh = ',maxval(esh(its:ite,kts:kte,jts:jte))
               print *,'pansy min in esh = ',minval(esh(its:ite,kts:kte,jts:jte))
+              print *,'pansy its = ',its,' and ite = ',ite
+              print *,'pansy jts = ',jts,' and jte = ',jte
+              print *,'pansy kts = ',kts,' and kte = ',kte
             endif
           endif
             ! Might need to flip the K for ESH/ESM?

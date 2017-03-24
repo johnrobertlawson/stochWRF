@@ -435,6 +435,11 @@ CONTAINS
                      IOPT_INF  ,IOPT_RAD  ,IOPT_ALB  ,IOPT_SNF  ,IOPT_TBOT, IOPT_STC , &
 		     IOPT_RSF )
 
+             ! JRL ----
+    print *,"monkey in noahmpdrv, (i)opt_rad is now = ",iopt_rad 
+    print *,"monkey in noahmpdrv, morphr_rad is now = ",morphr_rad
+    print *,"monkey in noahmpdrv, morphth_rad is now = ",morphth_rad
+              ! ----------
     IPRINT    =  .false.                     ! debug printout
 
     YEARLEN = 365                            ! find length of year for phenology (also S Hemisphere)

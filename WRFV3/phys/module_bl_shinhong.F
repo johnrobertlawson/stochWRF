@@ -110,7 +110,10 @@ contains
    integer,  intent(in   )   ::      ids,ide, jds,jde, kds,kde,                &
                                      ims,ime, jms,jme, kms,kme,                &
                                      its,ite, jts,jte, kts,kte
-   integer,  intent(in   )   ::      shinhong_tke_diag
+    ! JRL ---------
+   !integer,  intent(in   )   ::      shinhong_tke_diag
+   integer,  intent(inout)   ::      shinhong_tke_diag
+   ! ------------------------
 !
    real,     intent(in   )   ::      dt,cp,g,rovcp,rovg,rd,xlv,rv
    real,     intent(in   )   ::      ep1,ep2,karman
@@ -207,11 +210,13 @@ contains
 ! JRL ---------
     real :: dthdz, dqdz = 0.0
     real,dimension(ims:ime,kms:kme,jms:jme),intent(inout) ::   tsq,qsq
-    real,     dimension( ims:ime, kms:kme, jms:jme )   ::       xkzhl_3d
+    real,dimension( ims:ime, kms:kme, jms:jme)   ::       xkzhl_3d
     !real,     dimension( its:ite, kts:kte )   ::       xkzhl = 0.0
-   tsq(its:ite,kts:kte,jts:jte) = 0.0
-   qsq(its:ite,kts:kte,jts:jte) = 0.0
+   ! Maybe do this initialisation at first time step?
+   !tsq(its:ite,kts:kte,jts:jte) = 0.0
+   !qsq(its:ite,kts:kte,jts:jte) = 0.0
    xkzhl_3d = 0.0
+   shinhong_tke_diag = 1 ! Turn on TKE calculation etc
 ! -------------
    qv2d(its:ite,:) = 0.0
 !
@@ -304,6 +309,9 @@ contains
        print *,'pansy min in el_pbl = ',minval(el_pbl)
        print *,'pansy max in xkzhl_3d = ',maxval(xkzhl_3d)
        print *,'pansy min in xkzhl_3d = ',minval(xkzhl_3d)
+       print *,'pansy its = ',its,' and ite = ',ite
+       print *,'pansy jts = ',jts,' and jte = ',jte
+       print *,'pansy kts = ',kts,' and kte = ',kte
      endif
      do i = its,ite
        do k = kts+1,kte-1
@@ -354,6 +362,8 @@ contains
    print *,tsq(its:ite,kts:kte,jts:jte)
    print *,'trifle qsq array ----------'
    print *,qsq(its:ite,kts:kte,jts:jte)
+   print *,'trifle xkzhl_3d array ----------'
+   print *,xkzhl_3d(its:ite,kts:kte,jts:jte)
    print *,'end array ----------'
 !
    end subroutine shinhong

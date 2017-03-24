@@ -748,7 +748,8 @@ IF (grid%sppt_on==1) then
                                         wvar2, tvar, qvar
 
        REAL , DIMENSION(ims:ime,jms:jme),INTENT(INOUT) :: L_INF
-       REAL :: ash,ashc,aml,dx,dt ! JRL
+       REAL, INTENT(IN) :: ashc,aml,dx,dt 
+       REAL :: ash ! Local variable
        ! --------------------------------
        REAL , DIMENSION(ims:ime,kms:kme_stoch, jms:jme),INTENT(INOUT) :: rstoch
        REAL :: gridpt_stddev_sppt ,thresh,sppt_thresh_fact
@@ -807,29 +808,68 @@ IF (grid%sppt_on==1) then
          DO k = kts,kte-1
          kh = min( k, kte_stoch-1 ) 
            DO i = its,ite 
+             ! If l_inf wasn't computed, use the default in namelist for asympt.
+             ! mixing length.
+             if (l_inf(i,j) < 2.5) then
+                 if (i == its+2) then
+                   if (j == jts+2) then
+                     if (k == kts+2) then
+                         print *,"foxglove l_inf looks dodgy... value = ",l_inf(i,j)
+                     end if
+                   end if
+                 end if
+                 l_inf(i,j) = aml
+                 
+             end if
              ash = ashc * (l_inf(i,j)/(5.0*dx)) * (1.0/dt)
-             if (.not.((wvar2(i,k,j) > 1e-32) .and. (wvar2(i,k,j) < 1e32))) then
-               ! Do nothing
-             elseif (wvar2(i,k,j).eq.0.0) then
+
+             if (i == its+2) then
+               if (j == jts+2) then
+                 if (k == kts+2) then
+                   print *,'orange ----------'
+                   print *,i,j,k
+                   print *,'thresh = ',thresh
+                   print *,'ash = ',ash
+                   print *,'dt = ',dt
+                   print *,'dx = ',dx
+                   print *,'l_inf = ',l_inf(i,j)
+                   print *,'wvar2 = ',wvar2(i,k,j)
+                   print *,'qvar = ',qvar(i,k,j)
+                   print *,'tvar = ',tvar(i,k,j)
+                   print *,'rw_tendf = ',rw_tendf(i,k,j)
+                   print *,'moist_tend = ',moist_tend(i,k,j)
+                   print *,'t_tendf = ',t_tendf(i,k,j)
+                   print *,'rstoch at kh = ',rstoch(i,kh,j)
+                   print *,'END orange ----------'
+                 endif
+               endif
+             endif
+             
+             if (wvar2(i,k,j).eq.0.0) then
                  rw_tendf(i,k,j) = rw_tendf(i,k,j)
+                 print *,"parsnip wvar2 is 0 at i,j,k = ",i,j,k
+             elseif (.not.((wvar2(i,k,j) > 1e-20) .and. (wvar2(i,k,j) < 1e20))) then
+               print *,"darjeeling weird value: wvar2 = ",wvar2(i,k,j), "at i,j,k =",i,j,k
              else
                  rw_tendf(i,k,j) = rw_tendf(i,k,j)+(ash*rstoch(i,kh,j)* &
                                              sqrt((wvar2(i,k,j)/2.0)))
              endif
 
-             if (.not.((qvar(i,k,j) > 1e-32) .and. (qvar(i,k,j) < 1e32))) then
-               ! Do nothing
-             elseif (qvar(i,k,j).eq.0.0) then
+             if (qvar(i,k,j).eq.0.0) then
                moist_tend(i,k,j) = moist_tend(i,k,j)
+               print *,"parsnip qvar is 0 at i,j,k = ",i,j,k
+             elseif (.not.((qvar(i,k,j) > 1e-20) .and. (qvar(i,k,j) < 1e20))) then
+               print *,"darjeeling weird value: qvar = ",qvar(i,k,j), " at i,j,k =",i,j,k
              else
                moist_tend(i,k,j) = moist_tend(i,k,j)+(ash*rstoch(i,kh,j)* &
                                                  sqrt(qvar(i,k,j)))
              end if
 
-             if (.not.((tvar(i,k,j) > 1e-32) .and. (tvar(i,k,j) < 1e32))) then
-               ! Do nothing
-             elseif (tvar(i,k,j).eq.0.0) then
+             if (tvar(i,k,j).eq.0.0) then
                t_tendf(i,k,j) = t_tendf(i,k,j)
+               print *,"parsnip tvar is 0 at i,j,k = ",i,j,k
+             elseif (.not.((tvar(i,k,j) > 1e-20) .and. (tvar(i,k,j) < 1e20))) then
+               print *,"darjeeling weird value: tvar = ",tvar(i,k,j), " at i,j,k =", i,j,k
              else
                t_tendf(i,k,j) = t_tendf(i,k,j)+(ash*rstoch(i,kh,j)* &
                                                sqrt(tvar(i,k,j)))

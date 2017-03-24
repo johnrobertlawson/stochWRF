@@ -2231,23 +2231,15 @@ CONTAINS
         ENDIF
         ! current time string including fractional part, if present
         IF ( PRESENT( current_timestr_frac ) ) THEN
-          print *,"banana start of current_timestr_frac"
           lcl_currtime = domain_get_current_time ( grid )
-          !print *,"banana lcl_currtime = ",lcl_currtime
-          print *,"banana lcl_currtime just computed"
           CALL wrf_timetoa ( lcl_currtime, tmp_str )
-          print *,"banana tmp_str = ",tmp_str
           CALL WRFU_TimeGet( lcl_currtime, Sn=Sn, Sd=Sd, rc=rc )
-          print *,"banana Sd = ",Sd," Sn = ",Sn," rc = ",rc ! JRL
           IF ( rc /= WRFU_SUCCESS ) THEN
             CALL wrf_error_fatal ( &
               'domain_clock_get:  WRFU_TimeGet() failed' )
           ENDIF
-          print *,"banana about to fraction_to_string" ! JRL
           CALL fraction_to_string( Sn, Sd, frac_str )
-          print *,"banana frac_str = ",frac_str ! JRL
           current_timestr_frac = TRIM(tmp_str)//TRIM(frac_str)
-          print *,"banana timestr_frac = ",current_timestr_frac ! JRL
         ENDIF
         IF ( PRESENT( stop_time ) ) THEN
           stop_time = domain_get_stop_time ( grid )

@@ -202,7 +202,10 @@ CONTAINS
                            grid%VERTSTRUCC,grid%VERTSTRUCS,grid%VERTAMPT      )
        ENDIF !skebs_on 
 
+       ! JRL ------- Is this the right SPPT update (for T) for PSP?
+     !if ((grid%sppt_on==5).and.(grid%id .EQ. 1 )) then
      if ((grid%sppt_on==1).and.(grid%id .EQ. 1 )) then
+       ! -----------
           CALL RAND_PERT_UPDATE(grid,'T',                                     &
                           grid%SPPTFORCS,grid%SPPTFORCC,                      &
                           grid%SPPT_AMP,grid%ALPH_SPPT,                       &
@@ -661,6 +664,7 @@ BENCH_END(update_phy_ten_tim)
       ENDIF !skebs_on
 
       IF (grid%sppt_on==1) then
+          print *,"SPPT is turned on!" ! JRL
           !$OMP PARALLEL DO   &
           !$OMP PRIVATE ( ij )
           ! JB comment:  P_QV is in moist_tend(ims,kms,jms,2)
@@ -679,7 +683,8 @@ BENCH_END(update_phy_ten_tim)
                         ! JRL ---------
                         !grid%num_stoch_levels,grid%num_stoch_levels          )
                         grid%num_stoch_levels,grid%num_stoch_levels          &
-                        ,grid%qke,grid%tsq,grid%qsq,config_flags%ashc        &
+                        ,grid%tke_pbl,grid%tsq,grid%qsq,config_flags%ashc        &
+                        !,grid%qke,grid%tsq,grid%qsq,config_flags%ashc        &
                         ,config_flags%aml,grid%dx,grid%dt,grid%l_inf         )
                         ! -------------
            ENDDO

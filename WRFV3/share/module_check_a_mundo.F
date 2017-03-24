@@ -453,6 +453,7 @@
    DO i = 1, model_config_rec % max_dom
          IF ( model_config_rec % sppt(i) .ne. 0)  then
            model_config_rec % sppt_on=1
+           print *,"turnip SPPT is correctly turned on."
            IF (( model_config_rec%KMINFORCT .ne. 1) .or. (model_config_rec%KMAXFORCT .ne. 1000000) .or.   & 
                ( model_config_rec%LMINFORCT .ne. 1) .or. (model_config_rec%LMAXFORCT .ne. 1000000)) then    
                wrf_err_message = '--- Warning: the namelist parameter "kminforct" etc. are for SKEBS only'

@@ -626,6 +626,11 @@ contains
   LOGICAL                             :: FROZEN_GROUND ! used to define latent heat pathway
   LOGICAL                             :: FROZEN_CANOPY ! used to define latent heat pathway
   
+  ! JRL -----
+    print *,"monkey in noah sflx, morphr_rad is now = ",morphr_rad
+    print *,"monkey in noah sflx, morphth_rad is now = ",morphth_rad
+    ! -------
+
   ! INTENT (OUT) variables need to be assigned a value.  These normally get assigned values
   ! only if DVEG == 2.
   nee = 0.0
@@ -1746,6 +1751,10 @@ contains
   REAL                               :: WW2
   REAL                               :: WW3
 
+  ! JRL -----
+    print *,"monkey in energy, morphr_rad is now = ",morphr_rad
+    print *,"monkey in energy, morphth_rad is now = ",morphth_rad
+    ! -------
 ! ---------------------
 
 ! ---------------------------------------------------------------------------------------------------
@@ -2496,6 +2505,10 @@ contains
 ! --------------------------------------------------------------------------------------------------
 
 ! surface abeldo
+  ! JRL -----
+    print *,"monkey in noah radiation, morphr_rad is now = ",morphr_rad
+    print *,"monkey in noah radiation, morphth_rad is now = ",morphth_rad
+    ! -------
 
    CALL ALBEDO (parameters,VEGTYP ,IST    ,ICE    ,NSOIL  , & !in
                 DT     ,COSZ   ,FAGE   ,ELAI   ,ESAI   , & !in
@@ -2634,6 +2647,11 @@ contains
   REAL                 :: EXT      !optical depth direct beam per unit leaf + stem area
 
 ! --------------------------------------------------------------------------------------------------
+
+  ! JRL -----
+    print *,"monkey in noah albedo, morphr_rad is now = ",morphr_rad
+    print *,"monkey in noah albedo, morphth_rad is now = ",morphth_rad
+    ! -------
 
   NBAND = 2
   MPE = 1.E-06
@@ -3188,6 +3206,11 @@ contains
 
 ! -----------------------------------------------------------------
 ! compute within and between gaps
+  ! JRL -----
+    print *,"monkey in twostream, morphr_rad is now = ",morphr_rad
+    print *,"monkey in twostream, morphth_rad is now = ",morphth_rad
+     print *,"monkey in twostream, opt_rad is now = ",opt_rad
+    ! -------
      VAI_SPREAD = VAI
      if(VAI == 0.0) THEN
          GAP     = 1.0
@@ -9128,6 +9151,9 @@ END SUBROUTINE PSN_CROP
   opt_tbot = iopt_tbot 
   opt_stc  = iopt_stc
   opt_rsf  = iopt_rsf
+  
+  ! JRL ----
+  print *,"monkey in noahmp_options, opt_rad is now = ",opt_rad
   
   end subroutine noahmp_options
  

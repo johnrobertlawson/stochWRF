@@ -442,6 +442,11 @@ BENCH_START(surf_driver_tim)
           HYDRO_dt = -1
       endif
 
+      ! JRL -----
+     print *,"monkey in rk_step_p1, opt_rad is now = ",config_flags%opt_rad
+     print *,"monkey in rk_step_p1, morphr_rad is now = ",config_flags%morphr_rad
+     print *,"monkey in rk_step_p1, morphth_rad is now = ",config_flags%morphth_rad
+     ! ---------
       CALL surface_driver(                                                &
      &        HYDRO_dt=HYDRO_dt,  sfcheadrt=grid%sfcheadrt,               &
      &        INFXSRT=grid%INFXSRT,  soldrain=grid%soldrain,              &

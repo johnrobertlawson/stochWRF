@@ -1337,6 +1337,11 @@ CONTAINS
   q_ref2m = 0.0
 !------------------------------------------------------------------
 !
+  ! JRL -----
+    print *,"monkey in sfc driver, morphr_rad is now = ",morphr_rad
+    print *,"monkey in sfc driver, morphth_rad is now = ",morphth_rad
+     print *,"monkey in sfc driver, opt_rad is now = ",iopt_rad
+    ! -------
 ! stop run if using ssib and fractional seaice=0  (fds 12/2010)
 
   if(sf_surface_physics .eq. SSIBSCHEME .and. fractional_seaice .eq. 0) then
