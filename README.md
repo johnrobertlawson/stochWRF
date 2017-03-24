@@ -22,6 +22,7 @@ Search for “JRL” to find locations that have been edited from WRF 3.8.1 sour
 
 2. ### `dyn_em/module_first_rk_step_part2.F`
 
+  1. Line 205 to turn off RAND_PERT_UPDATE (we've hacked SPPT for other uses).
   1. Line 670 in CALL perturb_physics_tend (changing SPPT-scheme arguments for PSP. If SPPT scheme is to be kept, need to create duplicate of this scheme)
   2. Line 679 in CALL perturb_physics_tend (ditto)
 
@@ -64,6 +65,7 @@ Search for “JRL” to find locations that have been edited from WRF 3.8.1 sour
 
 8. ### `phys/module_bl_shinhong.F`
   1. Line 28: Passing tsq,qsq into script
+  2. Line 113: Change shinhong_tke_diag to in/out, because we want to change to "1" for PSP
   2. Line 207: Creating temporary variables for later comp, and defining tsq, qsq; initialising
   3. Line 271: Adding xkzhl to 2D call (this is the K_H values we need for variances)
   4. Line 283: Computing variances
@@ -139,6 +141,8 @@ Search for “JRL” to find locations that have been edited from WRF 3.8.1 sour
   14. MORPHTH_TBOT (added)
   15. MORPHTH_BTR (added)
   16. MORPHTH_RAD (added)
+  17. MYJ package declaration needs "L_INF","TSQ", "QSQ"
+  18. Shinhong package declaration needs "TSQ", "QSQ"
 
 15. ### `Registry/registry.stoch`
 (Search for the following)
