@@ -143,6 +143,9 @@ Search for “JRL” to find locations that have been edited from WRF 3.8.1 sour
   16. MORPHTH_RAD (added)
   17. MYJ package declaration needs "L_INF","TSQ", "QSQ"
   18. Shinhong package declaration needs "TSQ", "QSQ"
+  19. moist_tend (adding output to history)
+  20. t_tendf (adding output to history)
+  21. rw_tendf (adding output to history)
 
 15. ### `Registry/registry.stoch`
 (Search for the following)

@@ -1207,7 +1207,6 @@ CONTAINS
            ENDIF
 
       CASE (SHINHONGSCHEME)
-        print *,"banana calling shinhong" ! JRL
         CALL wrf_debug(100,'in SHINHONG PBL')
            IF ( PRESENT( qv_curr )  .AND. PRESENT( qc_curr )  .AND. &
                 PRESENT( qi_curr )                            .AND. &
@@ -1245,7 +1244,6 @@ CONTAINS
               ,DX=dx,DY=dy                                          &
               ,TSQ=tsq,QSQ=qsq                                 & ! JRL
                                                                     )
-           print *,"banana finished with shinhong" ! JRL
            ELSE
                WRITE ( message , FMT = '(A,7(L1,1X))' )             &
                  'present: '//                                      &
@@ -1420,7 +1418,6 @@ CONTAINS
                 PRESENT( rqvblten ) .AND. PRESENT( rqcblten ) .AND. &
                                                         .TRUE.  ) THEN
 
-             print *,"banana calling myj" ! JRL
              CALL wrf_debug(100,'in MYJPBL')
             IF ( .not.flag_bep .and. idiff.ne.1) THEN
              CALL myjpbl(DT=dt,STEPBL=stepbl,HT=ht,DZ=dz8w          &
@@ -1491,7 +1488,6 @@ CONTAINS
                CALL wrf_debug(0,message)
                CALL wrf_error_fatal('Lack arguments to call MYJ pbl')
            ENDIF
-           print *,"banana out of myj" ! JRL
  
       CASE (QNSEPBLSCHEME)
            IF ( PRESENT( qv_curr )  .AND. PRESENT( qc_curr )  .AND. &
@@ -1891,7 +1887,6 @@ CONTAINS
 
 
     
-   print *,"banana just before dtaux3d" ! JRL
    IF (PRESENT(dtaux3d)) THEN
        IF(gwd_opt .EQ. 1)THEN
              CALL gwdo(                                              &
@@ -1915,7 +1910,6 @@ CONTAINS
    ENDIF
 
 #if (EM_CORE==1)                                                                                                                                                                             
-   print *,"banana just before grav_settling" ! JRL
 !JOE-added - fog (cloud) water deposition calculation
    IF (grav_settling .GE. 1) THEN
       IF ( PRESENT(vdfg) .AND. PRESENT(qc_curr)) THEN
@@ -1950,7 +1944,6 @@ CONTAINS
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
             
-          print *,"banana going into diff3d" ! JRL
           CALL diff3d  (DT=dtbl,CP=cp,DZ=dz8w,TH=th_phy,QV=qv_curr,QC=qc_curr,T=t_phy  &
               ,U=u_phy,V=v_phy,RHO=rho,EXCH_H=exch_h                  &
               ,EXCH_M=exch_m                                          &
@@ -2004,7 +1997,6 @@ CONTAINS
 
    ENDIF
 
-   print *,"banana made it out of pbl_driver" ! JRL
    END SUBROUTINE pbl_driver
 
 !=============================================================================

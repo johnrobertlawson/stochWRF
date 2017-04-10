@@ -286,7 +286,6 @@ contains
              kts=kts,kte=kte,xkzhl=xkzhl_3d(:,:,j) )
              ! ---------
 !
-     !print *,'banana start variance comp.' ! JRL
      do k = kts,kte
        do i = its,ite
          rthblten(i,k,j) = rthblten(i,k,j)/pi3d(i,k,j)
@@ -298,21 +297,6 @@ contains
      enddo
 
      ! JRL ------
-     if (j == jts+3) then
-       print *,'pansy max in tsq = ',maxval(tsq)
-       print *,'pansy max in qsq = ',maxval(qsq)
-       print *,'pansy min in tsq = ',minval(tsq)
-       print *,'pansy min in qsq = ',minval(qsq)
-       print *,'pansy max in tke_pbl = ',maxval(tke_pbl)
-       print *,'pansy min in tke_pbl = ',minval(tke_pbl)
-       print *,'pansy max in el_pbl = ',maxval(el_pbl)
-       print *,'pansy min in el_pbl = ',minval(el_pbl)
-       print *,'pansy max in xkzhl_3d = ',maxval(xkzhl_3d)
-       print *,'pansy min in xkzhl_3d = ',minval(xkzhl_3d)
-       print *,'pansy its = ',its,' and ite = ',ite
-       print *,'pansy jts = ',jts,' and jte = ',jte
-       print *,'pansy kts = ',kts,' and kte = ',kte
-     endif
      do i = its,ite
        do k = kts+1,kte-1
           ! JRL - just for testing!
@@ -323,32 +307,6 @@ contains
           dqdz = (qv3d(i,k,j)-qv3d(i,k+1,j))/(dz8w(i,k,j))
           qsq(i,k,j) = abs(((-10.1*el_pbl(i,k,j))/(tke_pbl(i,k,j))) * (el_pbl(i,k,j) * &
                    tke_pbl(i,k,j) * xkzhl_3d(i,k,j) * dqdz**2))
-          if (qsq(i,k,j) > 1000) then
-               print *,'littlemama'
-          endif
-          if (tsq(i,k,j) > 1000) then
-            print *,'dickwolf'
-          endif
-          if (i == its+3) then
-            if (j == jts+3) then
-              if (k == kts+3) then
-                print *,'trifle ----------'
-                print *,i,j,k
-                print *,'dthdz = ',dthdz
-                print *,'dqdz = ',dqdz
-                print *,'tsq = ',tsq(i,k,j)
-                print *,'qsq = ',qsq(i,k,j)
-                print *,'xkzhl_3d = ',xkzhl_3d(i,k,j)
-                print *,'tke_pbl = ',tke_pbl(i,k,j)
-                print *,'tke_pbl (ims, kms, j) = ',tke_pbl(ims,kms,j)
-                print *,'el_pbl = ',el_pbl(i,k,j)
-                print *,'el_pbl (ims,kms,j) = ',el_pbl(ims,kms,j)
-                print *,'max el_pbl = ',MAXVAL(el_pbl),' at ',MAXLOC(el_pbl)
-                print *,'dz8w = ',dz8w(i,k,j)
-                print *,'END trifle ----------'
-              endif
-            endif
-          endif
        enddo
        tsq(i,kts,j) = tsq(i,kts+1,j)
        tsq(i,kts,j) = tsq(i,kts+1,j)
@@ -358,13 +316,6 @@ contains
      ! --------
 !
    enddo
-   print *,'trifle tsq array ----------'
-   print *,tsq(its:ite,kts:kte,jts:jte)
-   print *,'trifle qsq array ----------'
-   print *,qsq(its:ite,kts:kte,jts:jte)
-   print *,'trifle xkzhl_3d array ----------'
-   print *,xkzhl_3d(its:ite,kts:kte,jts:jte)
-   print *,'end array ----------'
 !
    end subroutine shinhong
 !-------------------------------------------------------------------------------
@@ -1699,12 +1650,6 @@ contains
        if(k/=kts) el_pbl(i,k) = el(k) ! el is not defined at kte
      enddo
 !
-   ! JRL------
-     print *,'banana trifle ----------'
-     print *,'el(k) = ',el(kts+1)
-     print *,'el_pbl(i,k) = ',el_pbl(its+1,kts+1)
-     print *,'END banana trifle ----------'
-   ! --------
    enddo tke_calculation
    endif
 !

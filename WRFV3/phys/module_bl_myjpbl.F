@@ -794,23 +794,6 @@
 !
 
             ! JRL --------
-          if (i == its+3) then
-            if (j == jts+3) then
-              print *,'pansy max in tsq = ',maxval(tsq(its:ite,kts:kte,jts:jte))
-              print *,'pansy max in qsq = ',maxval(qsq(its:ite,kts:kte,jts:jte))
-              print *,'pansy min in tsq = ',minval(tsq(its:ite,kts:kte,jts:jte))
-              print *,'pansy min in qsq = ',minval(qsq(its:ite,kts:kte,jts:jte))
-              print *,'pansy max in tke_myj = ',maxval(tke_myj(its:ite,kts:kte,jts:jte))
-              print *,'pansy min in tke_myj = ',minval(tke_myj(its:ite,kts:kte,jts:jte))
-              print *,'pansy max in el_myj = ',maxval(el_myj(its:ite,kts:kte,jts:jte))
-              print *,'pansy min in el_myj = ',minval(el_myj(its:ite,kts:kte,jts:jte))
-              print *,'pansy max in esh = ',maxval(esh(its:ite,kts:kte,jts:jte))
-              print *,'pansy min in esh = ',minval(esh(its:ite,kts:kte,jts:jte))
-              print *,'pansy its = ',its,' and ite = ',ite
-              print *,'pansy jts = ',jts,' and jte = ',jte
-              print *,'pansy kts = ',kts,' and kte = ',kte
-            endif
-          endif
             ! Might need to flip the K for ESH/ESM?
           DO K=KTS+1,KTE-1
             KFLIP = KTE+1-K
@@ -822,29 +805,6 @@
             !DQDZ = (QV(I,K,J)-QV(I,K+1,J))/(-1.0*DZ(I,K,J))
             QSQ(I,K,J) = ABS(((B2*EL_MYJ(I,K,J))/(TKE_MYJ(I,K,J)))*         &
                   (EL_MYJ(I,K,J)*TKE_MYJ(I,K,J)*ESH(I,K,J)*(DQDZ**2)))
-            if (qsq(i,k,j) > 1000) then
-                print *,'littlemama'
-            endif
-            if (tsq(i,k,j) > 1000) then
-                print *,'dickwolf'
-            endif           
-            if (i == its+3) then
-              if (j == jts+3) then
-                if (k == kts+3) then
-                  print *,'trifle ----------'
-                  print *,i,j,k
-                  print *,'dthdz = ',dthdz
-                  print *,'dqdz = ',dqdz
-                  print *,'tsq = ',tsq(i,k,j)
-                  print *,'qsq = ',qsq(i,k,j)
-                  print *,'esh = ',esh(i,k,j)
-                  print *,'el_myj = ',el_myj(i,k,j)
-                  print *,'dz = ',dz(i,k,j)
-                  print *,'tke_myj = ',tke_myj(i,k,j)
-                  print *,'END trifle ----------'
-                endif
-              endif
-            endif
           ENDDO
           TSQ(I,KTE,J) = TSQ(I,KTE-1,J)
           TSQ(I,KTE,J) = TSQ(I,KTE-1,J)
@@ -855,15 +815,9 @@
 !----------------------------------------------------------------------
 !
       ENDDO main_integration
-      print *,'trifle tsq array ----------'
-      print *,tsq(its:ite,kts:kte,jts:jte)
-      print *,'trifle qsq array ----------'
-      print *,qsq(its:ite,kts:kte,jts:jte)
-      print *,'end array ----------'
 !
 !----------------------------------------------------------------------
 !
-      print *,"banana heading out of MYJ..."
       END SUBROUTINE MYJPBL
 !
 !----------------------------------------------------------------------

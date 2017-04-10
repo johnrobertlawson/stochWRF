@@ -442,11 +442,6 @@ BENCH_START(surf_driver_tim)
           HYDRO_dt = -1
       endif
 
-      ! JRL -----
-     print *,"monkey in rk_step_p1, opt_rad is now = ",config_flags%opt_rad
-     print *,"monkey in rk_step_p1, morphr_rad is now = ",config_flags%morphr_rad
-     print *,"monkey in rk_step_p1, morphth_rad is now = ",config_flags%morphth_rad
-     ! ---------
       CALL surface_driver(                                                &
      &        HYDRO_dt=HYDRO_dt,  sfcheadrt=grid%sfcheadrt,               &
      &        INFXSRT=grid%INFXSRT,  soldrain=grid%soldrain,              &
@@ -858,7 +853,6 @@ BENCH_END(surf_driver_tim)
       CALL wrf_debug ( 200 , ' call pbl_driver' )
 BENCH_START(pbl_driver_tim)
 
-      print *,"banana just before pbl_driver in rk_step_part1" ! JRL
       CALL pbl_driver(                                                              &
      &         AKHS=grid%akhs          ,AKMS=grid%akms                              &
      &        ,BL_PBL_PHYSICS=config_flags%bl_pbl_physics                           &
@@ -1012,7 +1006,6 @@ BENCH_START(pbl_driver_tim)
      &        ,QNORM=grid%QNORM, fasdas=config_flags%fasdas              & !fasdas
      &        ,L_INF=grid%L_INF                                          & ! JRL
      &        )
-      print *,"banana made it out of pbl_driver in rk_step_part1" ! JRL
 
 
 BENCH_END(pbl_driver_tim)
@@ -1022,11 +1015,9 @@ BENCH_END(pbl_driver_tim)
 
 ! Jan Mandel's call to SFIRE
 
-      print *,"banana considering fire stuff..." ! JRL
       IF ((grid%sr_x > 0 .OR. grid%sr_y > 0) .AND. config_flags%ifire == 2) THEN
 
 BENCH_START(fire_driver_tim)
-        print *,"banana considering more fire stuff" ! JRL
         if(config_flags%ifire.eq.2)then 
             ! initialization moved to start_em:start_domain_em
 !            if(grid%initestep.eq.1) &
@@ -1042,15 +1033,12 @@ BENCH_START(fire_driver_tim)
             ,grid%rho,grid%z_at_w,dz8w)
         endif
 
-        print *,"banana out of fire stuff..." ! JRL
 BENCH_END(fire_driver_tim)
-       print *,"banana out of more fire stuff..." ! JRL
        ENDIF
 
 
 ! cumulus para.
 
-      print *,"banana just before Cu param" ! JRL
       CALL wrf_debug ( 200 , ' call cumulus_driver' )
 
 #if ( WRF_DFI_RADAR == 1 )
@@ -1311,7 +1299,6 @@ BENCH_START(shcu_driver_tim)
 #endif
 BENCH_END(shcu_driver_tim)
 
-      print *,"banana just before force_scm in rk_step_part1" ! JRL
 ! JPH call force_scm to update bl tendencies
       CALL force_scm(itimestep=grid%itimestep,dt=grid%dt                  &
      &             ,scm_force=config_flags%scm_force                      &
@@ -1397,7 +1384,6 @@ BENCH_END(shcu_driver_tim)
      &             ,KTS=k_start, KTE=min(k_end,kde-1)                     &
      &              )
 
-      print *,"banana made it out of that in rk_step_part1" ! JRL
 #ifdef DM_PARALLEL
 #     include "HALO_EM_FDDA_SFC.inc"
 #endif
