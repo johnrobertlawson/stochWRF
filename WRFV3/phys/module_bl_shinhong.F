@@ -110,10 +110,7 @@ contains
    integer,  intent(in   )   ::      ids,ide, jds,jde, kds,kde,                &
                                      ims,ime, jms,jme, kms,kme,                &
                                      its,ite, jts,jte, kts,kte
-    ! JRL ---------
-   !integer,  intent(in   )   ::      shinhong_tke_diag
-   integer,  intent(inout)   ::      shinhong_tke_diag
-   ! ------------------------
+   integer,  intent(in   )   ::      shinhong_tke_diag
 !
    real,     intent(in   )   ::      dt,cp,g,rovcp,rovg,rd,xlv,rv
    real,     intent(in   )   ::      ep1,ep2,karman
@@ -216,7 +213,6 @@ contains
    !tsq(its:ite,kts:kte,jts:jte) = 0.0
    !qsq(its:ite,kts:kte,jts:jte) = 0.0
    xkzhl_3d = 0.0
-   shinhong_tke_diag = 1 ! Turn on TKE calculation etc
 ! -------------
    qv2d(its:ite,:) = 0.0
 !
@@ -1521,7 +1517,10 @@ contains
 !
 !---- calculate sgs tke which is consistent with shinhongpbl algorithm
 !
-   if (shinhong_tke_diag.eq.1) then
+! JRL -------- Force TKE to be computed
+   !if (shinhong_tke_diag.eq.1) then
+   if (1 > 0) then
+! ------------
 !
    tke_calculation: do i = its,ite
      do k = kts+1,kte

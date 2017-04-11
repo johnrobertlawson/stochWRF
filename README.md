@@ -65,13 +65,13 @@ Search for “JRL” to find locations that have been edited from WRF 3.8.1 sour
 
 8. ### `phys/module_bl_shinhong.F`
   1. Line 28: Passing tsq,qsq into script
-  2. Line 113: Change shinhong_tke_diag to in/out, because we want to change to "1" for PSP
   2. Line 207: Creating temporary variables for later comp, and defining tsq, qsq; initialising
   3. Line 271: Adding xkzhl to 2D call (this is the K_H values we need for variances)
   4. Line 283: Computing variances
   5. Line 319: Adding xkzhl
   6. Line 538: Added definition
   7. Line 540: Removed old definition
+  8. Line 1525: Force TKE to be computed
 
 9. ### `phys/module_mp_nssl_2mom.F`
   1. Line 794: Added three new SPP parameters to overwrite old (fixed) values
