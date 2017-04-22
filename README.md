@@ -41,6 +41,9 @@ Search for “JRL” to find locations that have been edited from WRF 3.8.1 sour
   5. Line 3641: Defining
   6. Line 3683: Adding to the nssl_params list to pass later
 
+5. ### `dyn_em/module_bc_em.F`
+  1. Line 1273: turning off smooth decay values (for DA purpose)
+
 5. ### `dyn_em/start_em.F`
   1. Line 1169 in CALL phy_init (NSSL variables for SPP)
   2. Line 1420 (mod for data assimilation)
@@ -146,6 +149,13 @@ Search for “JRL” to find locations that have been edited from WRF 3.8.1 sour
   19. moist_tend (adding output to history)
   20. t_tendf (adding output to history)
   21. rw_tendf (adding output to history)
+(Note the following are for DA only)
+  22. refl_10cm (adding output to history for DA)
+  23. vt_dbz_wt (adding variable for DA)
+  24. radar_refl (package declaration of vt_dbz_wt)
+  25. h_diabatic (adding output to history for DA)
+  26. qv_diabatic (adding output to history for DA)
+  27. qc_diabatic (adding output to history for DA)
 
 15. ### `Registry/registry.stoch`
 (Search for the following)

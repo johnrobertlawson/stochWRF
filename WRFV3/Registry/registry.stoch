@@ -116,11 +116,19 @@ rconfig   integer     num_stoch_levels        derived    1        1        - "nu
 # JRL ###############
 rconfig   real        aml                     namelist,stoch      max_domains        150.0 - "Asymptotic m    ixing length in PBL scheme" "" ""
 rconfig   real        ashc                    namelist,stoch      max_domains          2.0 - "Scaling coef    ficient constant." "" ""
+state     real        qtend_og                ikj        dyn_em   1   -   rh   "qtend_og"    "Unperturbed moisture tendency" 
+state     real        qtend_pert              ikj        dyn_em   1   -   rh   "qtend_pert"  "Perturbation to moisture tendency" 
+state     real        ttend_og                ikj        dyn_em   1   -   rh    "ttend_og"    "Unperturbed temp tendency" 
+state     real        ttend_pert              ikj        dyn_em   1   -   rh    "ttend_pert"  "Perturbation to temp tendency" 
+state     real        wtend_og                ikj        dyn_em   1   -   rh    "wtend_og"    "Unperturbed vertical motion tendency" 
+state     real        wtend_pert              ikj        dyn_em   1   -   rh    "wtend_pert"   "Perturbation to vertical motion tendency" 
 #####################
 
 # Package declarations
 
-package  sppt_perturb    sppt_on==1          -   state:rstoch,SPPTFORCS,SPPTFORCC,SPPT_AMP,VERTSTRUCC,VERTSTRUCS,VERTAMPT,RAND_REAL,RAND_IMAG,RAND_REAL_xxx,RAND_REAL_yyy,RAND_IMAG_xxx,RAND_IMAG_yyy
+#JRL
+#package  sppt_perturb    sppt_on==1          -   state:rstoch,SPPTFORCS,SPPTFORCC,SPPT_AMP,VERTSTRUCC,VERTSTRUCS,VERTAMPT,RAND_REAL,RAND_IMAG,RAND_REAL_xxx,RAND_REAL_yyy,RAND_IMAG_xxx,RAND_IMAG_yyy,
+package  sppt_perturb    sppt_on==1          -   state:rstoch,SPPTFORCS,SPPTFORCC,SPPT_AMP,VERTSTRUCC,VERTSTRUCS,VERTAMPT,RAND_REAL,RAND_IMAG,RAND_REAL_xxx,RAND_REAL_yyy,RAND_IMAG_xxx,RAND_IMAG_yyy,qtend_og,qtend_pert,ttend_og,ttend_pert,wtend_og,wtend_pert
 
 package  random_perturb  rand_perturb_on==1  -   state:rand_pert,SPFORCS,SPFORCC,SP_AMP,VERTSTRUCC,VERTSTRUCS,VERTAMPT,RAND_REAL,RAND_IMAG,RAND_REAL_xxx,RAND_REAL_yyy,RAND_IMAG_xxx,RAND_IMAG_yyy
 

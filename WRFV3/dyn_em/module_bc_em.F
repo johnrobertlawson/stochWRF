@@ -1270,16 +1270,18 @@ CONTAINS
       ENDDO
       ENDDO
 
+! JRL ------
 ! Fill the atmospheric w field with smoothly decaying values
-      IF (fill_w_flag) THEN
-        DO j = jts,min(jte,jde-1)
-        DO k = kts+1,kte
-        DO i = its,min(ite,ide-1)
-          w(i,k,j) = w(i,1,j)*znw(k)*znw(k)
-        ENDDO
-        ENDDO
-        ENDDO
-      ENDIF
+!      IF (fill_w_flag) THEN
+!        DO j = jts,min(jte,jde-1)
+!        DO k = kts+1,kte
+!        DO i = its,min(ite,ide-1)
+!          w(i,k,j) = w(i,1,j)*znw(k)*znw(k)
+!        ENDDO
+!        ENDDO
+!        ENDDO
+!      ENDIF
+! JRL -----
 
   END SUBROUTINE set_w_surface
 

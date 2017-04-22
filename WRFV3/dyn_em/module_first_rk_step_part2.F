@@ -685,7 +685,10 @@ BENCH_END(update_phy_ten_tim)
                         grid%num_stoch_levels,grid%num_stoch_levels          &
                         ,grid%tke_pbl,grid%tsq,grid%qsq,config_flags%ashc        &
                         !,grid%qke,grid%tsq,grid%qsq,config_flags%ashc        &
-                        ,config_flags%aml,grid%dx,grid%dt,grid%l_inf         )
+                        ,config_flags%aml,grid%dx,grid%dt,grid%l_inf         &
+                        ,grid%qtend_og,grid%qtend_pert                       &
+                        ,grid%ttend_og,grid%ttend_pert                       &
+                        ,grid%wtend_og,grid%wtend_pert                       )
                         ! -------------
            ENDDO
           !$OMP END PARALLEL DO

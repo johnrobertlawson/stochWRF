@@ -210,9 +210,9 @@ i1       real   ww1            ikj     dyn_em      1         Z
 state    real   ww_m           ikj     dyn_em      1         Z      r         "ww_m"   "time-avg mu-coupled eta-dot"    "Pa s-1"
 i1       real   wwp            ikj     dyn_em      1         Z                                          
 i1       real   rw_tend        ikj     dyn_em      1         Z                                          
-# JRL ####
-#i1       real   rw_tendf       ikj     dyn_em      1         Z                                          
-i1       real   rw_tendf       ikj     dyn_em      1         Z      r                                         
+# JRL #### - turned off for now
+i1       real   rw_tendf       ikj     dyn_em      1         Z                                          
+#i1       real   rw_tendf       ikj     dyn_em      1         Z      hr        "RW_TENDF"     "W tendency from params"                              
 #########
 i1       real   w_save         ikj     dyn_em      1         Z                                          
 state    real   w_subs         |       dyn_em      1         -      i3rh      "W_SUBS" "large-scale vertical velocity" "m s-1"
@@ -236,9 +236,9 @@ state    real   t              ikjb     dyn_em      2         -     \
 
 state    real   t_init         ikj     dyn_em      1         -      ird       "t_init" "initial potential temperature" "K"
 i1       real   t_tend         ikj     dyn_em      1         -  
-# JRL ###
-#i1       real   t_tendf        ikj     dyn_em      1         -      
-i1       real   t_tendf        ikj     dyn_em      1         -      r  
+# JRL ### - turned off for now
+i1       real   t_tendf        ikj     dyn_em      1         -      
+#i1       real   t_tendf        ikj     dyn_em      1         -      hr       "T_TENDF"     "T tendency from params"
 #######
 i1       real   t_2save        ikj     dyn_em      1         -   
 state    real   t_save         ikj     dyn_em      1         -      -        "t_save"
@@ -466,9 +466,9 @@ state    real    vc_j                 -       misc     -     -    r
 # moist_tend even if there are not any moist scalars (so the essentially                                                
 # dry code will will still link properly)                                               
 #                                               
-# JRL ####
-#state   real    -              ikjftb   moist       1         -     -    -
-state   real    -              ikjftb   moist       1         -     r    -
+# JRL #### - turned off for now
+state   real    -              ikjftb   moist       1         -     -    -
+#state   real    -              ikjftb   moist       1         -     hr    "MOIST_JRL"
 ###########
 state   real    qv             ikjftb   moist       1         -     \
    i0rhusdf=(bdy_interp:dt)  "QVAPOR"           "Water vapor mixing ratio"      "kg kg-1"
@@ -953,7 +953,7 @@ state    real   cfm_temf       ij      misc        1         -     rh          "
 state    real   wm_temf        ij      misc        1         -     rh        "wm_temf"               "Velocity scale in TEMF surface layer scheme"      "m s-1"
 
 # JRL: adding asymptotic mixing length
-state   real    L_INF            ij     misc        1         -     hr         "L_INF"                  "Asymptotic mixing length"
+state   real    L_INF            ij     misc        1         -     -         "L_INF"                  "Asymptotic mixing length"
 
 # MYNN PBL variables
 state   real   qke_adv         ikjftb  scalar      1         -      i0rusdf=(bdy_interp:dt) "qke_adv"       "twice TKE from MYNN"      "m2 s-2"
@@ -1158,9 +1158,14 @@ state   real    lnint          ij      misc         1         -      r        "L
 
 
 # Other Misc State Variables                                            
-state   real    h_diabatic     ikj     misc         1         -      rdu      "h_diabatic"            "MICROPHYSICS LATENT HEATING"         "K s-1"      
-state   real    qv_diabatic    ikj     misc         1         -      rdu      "qv_diabatic"           "MICROPHYSICS QV TENDENCY"            "g g-1 s-1"      
-state   real    qc_diabatic    ikj     misc         1         -      rdu      "qc_diabatic"           "MICROPHYSICS QC TENDENCY"            "g g-1 s-1"      
+# JRL ####### for DA
+#state   real    h_diabatic     ikj     misc         1         -      rdu      "h_diabatic"            "MICROPHYSICS LATENT HEATING"         "K s-1"      
+#state   real    qv_diabatic    ikj     misc         1         -      rdu      "qv_diabatic"           "MICROPHYSICS QV TENDENCY"            "g g-1 s-1"      
+#state   real    qc_diabatic    ikj     misc         1         -      rdu      "qc_diabatic"           "MICROPHYSICS QC TENDENCY"            "g g-1 s-1"      
+state   real    h_diabatic     ikj     misc         1         -      irhdu      "h_diabatic"            "MICROPHYSICS LATENT HEATING"         "K s-1"      
+state   real    qv_diabatic    ikj     misc         1         -      irhdu      "qv_diabatic"           "MICROPHYSICS QV TENDENCY"            "g g-1 s-1"      
+state   real    qc_diabatic    ikj     misc         1         -      irhdu      "qc_diabatic"           "MICROPHYSICS QC TENDENCY"            "g g-1 s-1"      
+################
 state   real    msft           ij      misc         1         -     i012rhdu=(copy_fcnm)    "MAPFAC_M"         "Map scale factor on mass grid" ""
 state   real    msfu           ij      misc         1         X     i012rhdu=(copy_fcnm)    "MAPFAC_U"         "Map scale factor on u-grid" ""
 state   real    msfv           ij      misc         1         Y     i012rhdu=(copy_fcnm)    "MAPFAC_V"         "Map scale factor on v-grid" ""
@@ -1306,7 +1311,11 @@ state    real  HAILNC           ij      misc        1         -      rhdu     "H
 state    real  SNOWNCV          ij      misc        1         -      r        "SNOWNCV"               "TIME-STEP NONCONVECTIVE SNOW AND ICE"                    "mm"
 state    real  GRAUPELNCV       ij      misc        1         -      r        "GRAUPELNCV"            "TIME-STEP NONCONVECTIVE GRAUPEL"                         "mm"
 state    real  HAILNCV          ij      misc        1         -      r        "HAILNCV"               "TIME-STEP NONCONVECTIVE HAIL"                            "mm"
-state    real    refl_10cm      ikj     dyn_em      1         -      hdu       "refl_10cm"             "Radar reflectivity (lamda = 10 cm)"  "dBZ"
+# JRL #### for DA
+#state    real    refl_10cm      ikj     dyn_em      1         -      hdu       "refl_10cm"             "Radar reflectivity (lamda = 10 cm)"  "dBZ"
+state    real    refl_10cm      ikj     dyn_em      1         -      irhdu       "refl_10cm"             "Radar reflectivity (lamda = 10 cm)"  "dBZ"
+state    real    vt_dbz_wt      ikj     dyn_em      1         -      irhdu       "vt_dbz_wt"            "Reflectivity-weighted precip fall speed"
+########
 # LIGHTNING NUDGING
 #state    real    ltg_dat        ij      misc        1         -      r         "ltg_dat"               "gridded lightning data"  "Flash per xkm x xkm per LAD_INT sec"
 # END LIGHTNING NUDGING
@@ -2133,7 +2142,7 @@ rconfig   real     nssl_rho_qhl           namelist,physics      max_domains  900
 rconfig   real     nssl_rho_qs            namelist,physics      max_domains  100.     rh       "Snow particle density"  ""      ""
 
 # JRL ################
-rconfig   real     nssl_alphar            namelist,physics      max_domains  0        rh       "Rain shape parameter"
+rconfig   real     nssl_alphar            namelist,physics      max_domains  0.0      rh       "Rain shape parameter"
 rconfig   real     nssl_ehw0              namelist,physics      max_domains  0.5      rh       "Max graupel droplet collection eff."
 rconfig   real     nssl_ehlw0             namelist,physics      max_domains  0.75     rh       "Max hail droplet collection eff."
 # ####################
@@ -2648,7 +2657,10 @@ package   nssl_2momg      mp_physics==22               -             moist:qv,qc
 package   thompsonaero    mp_physics==28               -             moist:qv,qc,qr,qi,qs,qg;scalar:qni,qnr,qnc,qnwfa,qnifa;state:re_cloud,re_ice,re_snow,qnwfa2d,taod5503d,taod5502d
 package   etampnew        mp_physics==95               -             moist:qv,qc,qr,qs;scalar:qt;state:f_ice_phy,f_rain_phy,f_rimef_phy
 
-package   radar_refl      compute_radar_ref==1         -             state:refl_10cm,refd_max
+# JRL #### for DA
+#package   radar_refl      compute_radar_ref==1         -             state:refl_10cm,refd_max
+package   radar_refl      compute_radar_ref==1         -             state:refl_10cm,refd_max,vt_dbz_wt
+################
 endif
 
 package   nodfimoist        mp_physics_dfi==-1       -             -

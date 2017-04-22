@@ -1417,7 +1417,7 @@ endif
 
          ! setting kinematic condition for w at the surface
 
-         ! JRL --------
+         ! JRL -------- for DA
          !fill_w_flag = .true.
          fill_w_flag = .false.
          ! ------------
