@@ -872,27 +872,81 @@ l_inf = 0.0
          END DO
        END DO
 
-       CALL wrf_debug("Max in tvar = ",maxval(tvar)
-       CALL wrf_debug("Max in qvar = ",maxval(qvar)
-       CALL wrf_debug("Max in wvar2 = ",maxval(wvar2)
-       CALL wrf_debug("Max in ttend_pert = ",maxval(ttend_pert)
-       CALL wrf_debug("Max in qtend_pert = ",maxval(qtend_pert)
-       CALL wrf_debug("Max in wtend_pert = ",maxval(wtend_pert)
-       CALL wrf_debug("Max in ttend_og = ",maxval(ttend_og)
-       CALL wrf_debug("Max in qtend_og = ",maxval(qtend_og)
-       CALL wrf_debug("Max in wtend_og = ",maxval(wtend_og)
-       CALL wrf_debug("max in l_inf = ",maxval(l_inf)
-       CALL wrf_debug("min in tvar = ",minval(tvar)
-       CALL wrf_debug("min in qvar = ",minval(qvar)
-       CALL wrf_debug("min in wvar2 = ",minval(wvar2)
-       CALL wrf_debug("min in ttend_pert = ",minval(ttend_pert)
-       CALL wrf_debug("min in qtend_pert = ",minval(qtend_pert)
-       CALL wrf_debug("min in wtend_pert = ",minval(wtend_pert)
-       CALL wrf_debug("min in ttend_og = ",minval(ttend_og)
-       CALL wrf_debug("min in qtend_og = ",minval(qtend_og)
-       CALL wrf_debug("min in wtend_og = ",minval(wtend_og)
-       CALL wrf_debug("min in l_inf = ",minval(l_inf)
-       CALL wrf_debug("ash = ",ash
+       WRITE(john_message,FMT='(A,F6.1)' ) &
+      "Max in tvar = ",maxval(tvar)
+      CALL wrf_debug(9999,john_message)
+       WRITE(john_message,FMT='(A,F6.1)' ) &
+      "Max in qvar = ",maxval(qvar)
+      CALL wrf_debug(9999,john_message)
+       WRITE(john_message,FMT='(A,F6.1)' ) &
+      "Max in wvar2 = ",maxval(wvar2)
+      CALL wrf_debug(9999,john_message)
+       WRITE(john_message,FMT='(A,F6.1)' ) &
+      "Max in ttend_pert = ",maxval(ttend_pert)
+      CALL wrf_debug(9999,john_message)
+       WRITE(john_message,FMT='(A,F6.1)' ) &
+      "Max in qtend_pert = ",maxval(qtend_pert)
+      CALL wrf_debug(9999,john_message)
+       WRITE(john_message,FMT='(A,F6.1)' ) &
+      "Max in wtend_pert = ",maxval(wtend_pert)
+      CALL wrf_debug(9999,john_message)
+       WRITE(john_message,FMT='(A,F6.1)' ) &
+      "Max in ttend_og = ",maxval(ttend_og)
+      CALL wrf_debug(9999,john_message)
+       WRITE(john_message,FMT='(A,F6.1)' ) &
+      "Max in qtend_og = ",maxval(qtend_og)
+      CALL wrf_debug(9999,john_message)
+       WRITE(john_message,FMT='(A,F6.1)' ) &
+      "Max in wtend_og = ",maxval(wtend_og)
+      CALL wrf_debug(9999,john_message)
+       WRITE(john_message,FMT='(A,F6.1)' ) &
+      "max in l_inf = ",maxval(l_inf)
+      CALL wrf_debug(9999,john_message)
+       WRITE(john_message,FMT='(A,F6.1)' ) &
+      "min in tvar = ",minval(tvar)
+      CALL wrf_debug(9999,john_message)
+       WRITE(john_message,FMT='(A,F6.1)' ) &
+      "min in qvar = ",minval(qvar)
+      CALL wrf_debug(9999,john_message)
+       WRITE(john_message,FMT='(A,F6.1)' ) &
+      "min in wvar2 = ",minval(wvar2)
+      CALL wrf_debug(9999,john_message)
+       WRITE(john_message,FMT='(A,F6.1)' ) &
+      "min in ttend_pert = ",minval(ttend_pert)
+      CALL wrf_debug(9999,john_message)
+       WRITE(john_message,FMT='(A,F6.1)' ) &
+      "min in qtend_pert = ",minval(qtend_pert)
+      CALL wrf_debug(9999,john_message)
+       WRITE(john_message,FMT='(A,F6.1)' ) &
+      "min in wtend_pert = ",minval(wtend_pert)
+      CALL wrf_debug(9999,john_message)
+       WRITE(john_message,FMT='(A,F6.1)' ) &
+      "min in ttend_og = ",minval(ttend_og)
+      CALL wrf_debug(9999,john_message)
+       WRITE(john_message,FMT='(A,F6.1)' ) &
+      "min in qtend_og = ",minval(qtend_og)
+      CALL wrf_debug(9999,john_message)
+       WRITE(john_message,FMT='(A,F6.1)' ) &
+      "min in wtend_og = ",minval(wtend_og)
+      CALL wrf_debug(9999,john_message)
+       WRITE(john_message,FMT='(A,F6.1)' ) &
+      "min in l_inf = ",minval(l_inf)
+      CALL wrf_debug(9999,john_message)
+       WRITE(john_message,FMT='(A,F6.1)' ) &
+      "ash = ",ash
+      CALL wrf_debug(9999,john_message)
+       WRITE(john_message,FMT='(A,F6.1)' ) &
+      "ashc = ",ashc
+      CALL wrf_debug(9999,john_message)
+       WRITE(john_message,FMT='(A,F6.1)' ) &
+      "dx = ",dx
+      CALL wrf_debug(9999,john_message)
+       WRITE(john_message,FMT='(A,F6.1)' ) &
+      "dt = ",dt
+      CALL wrf_debug(9999,john_message)
+       WRITE(john_message,FMT='(A,F6.1)' ) &
+      "aml = ",aml
+      CALL wrf_debug(9999,john_message)
 
 ! -----------------------
 
